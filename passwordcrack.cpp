@@ -2,9 +2,10 @@
 #include "md5.h"
 #include <string>
 
+using namespace std;
 
 
-string intermediateZero (string pasword, string salt, string magic){
+string intermediateZero (string password, string salt, string magic){
 	string alternatesum = md5(password + salt + password);
 	string substr4 = ""; //length(password) bytes of the Alternate sum, repeated as necessary
 	for (int i = 0; i < password.length(); i++){
@@ -17,4 +18,3 @@ string intermediateZero (string pasword, string salt, string magic){
 		int mask = 1 << 0;
 
 	}
-}
