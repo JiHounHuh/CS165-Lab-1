@@ -2,7 +2,6 @@
 #include "md5.h"
 #include <string>
 
-using namespace std;
 
 
 string intermediateZero (string password, string salt, string magic){
@@ -14,7 +13,10 @@ string intermediateZero (string password, string salt, string magic){
 	string substr5 = ""; //for each bit in length(password), from low to high and stopping after...
 	int counter = 0;
 	int shiftval = 0;
+	int num = 3;
 	while (counter < password.length()){
-		int mask = 1 << 0;
+		int mask = 1 << num;
+		int isolatebit = password.length() <<
 
 	}
+}
