@@ -4,11 +4,9 @@
 
 using namespace std;
 
-
-    string thousandLoop(string password, string interm, string salt, string hash)
+    string thousandLoop(string password, string salt, string magic)
     {
-        string Hash = hash;
-        string intermediate = interm;
+        string intermediate = intermediateZero(password, salt, magic);
         string sample = "";
         for(int i = 0; i < 1000; i++) {
             if(i%2 == 0) sample += intermediate;
