@@ -61,8 +61,8 @@ string generatePassword (string salt, string magic, string correctHash){
 						if (resultHash == correctHash){
 							return result;
 						}
-						for (int f = 97; f < 123; f++){
-							result += char(f);
+						for (int s = 97; s < 123; s++){
+							result += char(s);
 							resultHash = generateHash(result, salt, magic);
 							if (resultHash == correctHash){
 								return result;
