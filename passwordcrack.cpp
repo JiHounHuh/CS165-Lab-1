@@ -29,3 +29,48 @@ string intermediateZero (string password, string salt, string magic){
 	}
 	return md5(password + magic + salt + substr4 + substr5);
 }
+
+string generatePassword (string salt, string magic, string correctHash){
+	for (int i = 97; i < 123; i++){
+		result = "" + char(i);
+		resultHash = generateHash(result, salt, magic);
+		if (resultHash == correctHash){
+			return result;
+		}
+		for (int j = 97; j < 123; j++){
+			result += char(j);
+			resultHash = generateHash(result, salt, magic);
+			if (resultHash == correctHash){
+				return result;
+			}
+			for (int k = 97; k < 123; k++){
+				result += char(k);
+				resultHash = generateHash(result, salt, magic);
+				if (resultHash == correctHash){
+					return result;
+				}
+				for (int f = 97; f < 123; f++){
+					result += char(f);
+					resultHash = generateHash(result, salt, magic);
+					if (resultHash == correctHash){
+						return result;
+					}
+					for (int d = 97; d < 123; d++){
+						result += char(d);
+						resultHash = generateHash(result, salt, magic);
+						if (resultHash == correctHash){
+							return result;
+						}
+						for (int s = 97; s < 123; s++){
+							result += char(s);
+							resultHash = generateHash(result, salt, magic);
+							if (resultHash == correctHash){
+								return result;
+							}
+						}
+					}
+				}
+			}		
+		}
+	}
+}
