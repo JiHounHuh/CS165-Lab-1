@@ -1,13 +1,19 @@
 #include <iostream>
 #include "md5.h"
+#include <vector>
 #include <string>
 
 using namespace std;
 
 string encodeBase(string hash, int len) {
+    string hexed;
+    vector<int> crypt{11, 4, 10, 5, 3, 9, 15, 2, 8, 14, 1, 7, 13, 0, 6, 12};
+    for(int k = 0; k < 16; k++) {
+        hexed.push_back(hash.at(crypt.at(k)));
+    }
     string bin = "";
     for(int i = 0; i < len; i++) {
-        bin += hexToBin(hash.at(i));
+        bin += hexToBin(hexed.at(i));
     }
     return binToB64(bin);
 }
