@@ -101,6 +101,19 @@ string encodeBase(string hash) {
 string generateHash(string password, string salt, string magic)
 {
     string intermediate = intermediateZero(password, salt, magic);
+    // cout << "Intermediate: " << intermediate << endl;
+
+    // cout << endl;
+    // cout << endl;
+    // cout << endl;
+    // cout << endl;
+    // cout << endl;
+    // cout << endl;
+    // cout << endl;
+    // cout << endl;
+    // cout << endl;
+    //string dummy = md5(sample);
+    //cout << "Intermediate Hashed: " << md5(intermediate) << endl;
     string sample = "";
     for(int i = 0; i < 1000; i++) {
         if(i%2 == 0) sample += intermediate;
@@ -129,18 +142,6 @@ string generatePassword (string salt, string magic, string correctHash){
         counter++;
 		result = "" + char(i);
 		resultHash = generateHash(result, salt, magic);
-       cout << resultHash << endl;
-       cout << endl;
-        cout << endl;
-        cout << endl;
-        cout << endl;
-        cout << endl;
-        cout << endl;
-        cout << endl;
-        cout << endl;
-        cout << endl;
-        cout << endl;
-        cout << endl;
         //cout << "1" << endl;
         cout << char(i) << endl;
 		if (resultHash == correctHash){
