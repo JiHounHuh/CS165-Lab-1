@@ -6,26 +6,36 @@
 using namespace std;
 
 string intermediateZero (string password, string salt, string magic){
-	string alternatesum = md5(password + salt + password);
+	string alternatesum = md5("" + password + salt + password);
 	string substr4 = ""; //length(password) bytes of the Alternate sum, repeated as necessary
 	for (int i = 0; i < password.length(); i++){
 		substr4 = substr4 + "" + alternatesum.at(i);
 	}
 	string substr5 = ""; //for each bit in length(password), from low to high and stopping after...
-	int counter = 1;
-	int num = 2;
-	while (counter < password.length()){
-		int mask = 1 << num;
-		int isolatebit = ((password.length() >> 2-num) << num) & mask;
-		if (isolatebit == 1){
-			substr5 = substr5 + "\0"; 
-		}
-		else{
-			substr5 = substr5 + "" + password.at(0);
-		}
-		counter  = counter + counter<<1;
-		num--;
-	}
+	//int counter = 1;
+	//int num = 2;
+	// while (counter < password.length()){
+	// 	int mask = 1 << num;
+	// 	int isolatebit = ((password.length() >> 2-num) << num) & mask;
+	// 	if (isolatebit == 1){
+	// 		substr5 = substr5 + "\0"; 
+	// 	}
+	// 	else{
+	// 		substr5 = substr5 + "" + password.at(0);
+	// 	}
+	// 	counter  = counter + counter<<1;
+	// 	num--;
+	// }
+    for (int i = password.length(); i != 0; i >>= 1){
+        if (i & 1){
+            substr5 += "\0";
+        }
+        else{
+            substr5 += password.at(0);
+        }
+    }
+    cout << "alternate sum " << alternatesum << endl;
+    cout << "" + password + magic + salt + substr4 + substr5 << endl;
 	return md5(password + magic + salt + substr4 + substr5);
 }
 
@@ -130,7 +140,8 @@ string generateHash(string password, string salt, string magic)
     //string checkup= "";
    // checkup = encodeBase(intermediate);
    //cout << encodeBase(intermediate) << endl;
-    return encodeBase(intermediate);
+    return intermediate;
+    //return encodeBase(intermediate);
   //  cout << "encodeBase" << endl;
     //return checkup;
 }
@@ -231,6 +242,8 @@ int main() {
     salt = "hfT7jp2q";
     magic = "$1$";
     hash = "pZg4uQ9ur9356fohTDh9u/"; 
-    cout << "Correct password is : " << generatePassword(salt,magic,hash) << endl;
+    string randomhex = "0cc175b9c0f1b6a831c399e269772661";
+    //cout << "Correct password is : " << generatePassword(salt,magic,hash) << endl;
+    cout << "hash " << generateHash("a", salt, magic) << endl;
 
 }
