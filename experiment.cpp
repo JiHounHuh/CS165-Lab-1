@@ -107,7 +107,56 @@ string encodeBase(string hash) {
    // cout << "after" << endl;
     return binToB64(hexed);
 }
+//==========================================================================================
+string base64(int hash, int amount) {
+    string pin = "";
+    string b64="./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    for(int i = amount; amount >= 0; --amount) {
+        cout << "hash value: " << hash << endl;
+        pin += b64.at(hash & 0x3f);
+        hash = (hash >> 6);
+    }
+    // while(--amount >= 0) {
+    //     pin += b64.at(hash && 0x3f);
+    //     hash = (hash >> 6);
+    // }
+    cout << "done with encode: "<< pin << endl;
+    return pin;
+}
 
+string to64_tripleGroup(string hash, int first, int second, int third) {
+    auto semi = (hash.at(first) << 16) | 
+                  (hash.at(second) << 8) |
+                  (hash.at(third));
+    return base64(semi, 4);
+}
+
+string to64_singleGroup(string hash, int first) {
+    int semi = hash.at(first);
+    return base64(semi, 2);
+}
+
+
+string encryption(string hash) {
+    cout << endl;
+    string finalProduct = "";
+    finalProduct += to64_tripleGroup(hash, 0, 6, 12);
+    finalProduct += to64_tripleGroup(hash, 1, 7, 13);
+    finalProduct += to64_tripleGroup(hash, 2, 8, 14);
+    finalProduct += to64_tripleGroup(hash, 3, 9, 15);
+    finalProduct += to64_tripleGroup(hash, 4, 10, 5);
+    finalProduct += to64_singleGroup(hash, 11);
+    return finalProduct;
+
+//     return to64_tripleGroup(hash, 0,  6, 12) +
+//    to64_tripleGroup(hash, 1,  7, 13) +
+//    to64_tripleGroup(hash, 2,  8, 14) +
+//    to64_tripleGroup(hash, 3,  9, 15) +
+//    to64_tripleGroup(hash, 4, 10,  5) +
+//    to64_singleGroup(hash, 11);
+   //  11 | 4 10 5 | 3 9 15 | 2 8 14 | 1 7 13 | 0 6 12
+}
+//==========================================================================================
 string generateHash(string password, string salt, string magic)
 {
     string intermediate = intermediateZero(password, salt, magic);
@@ -140,7 +189,9 @@ string generateHash(string password, string salt, string magic)
     //string checkup= "";
    // checkup = encodeBase(intermediate);
    //cout << encodeBase(intermediate) << endl;
-    return intermediate;
+    //return intermediate;
+    cout << "intermediate loop 1000: " << intermediate << endl;
+    return encryption(intermediate);
     //return encodeBase(intermediate);
   //  cout << "encodeBase" << endl;
     //return checkup;
