@@ -2,16 +2,30 @@
 #include "md5.h"
 #include <string>
 #include <vector>
+#include <cstdlib>
 
 using namespace std;
 
 string intermediateZero (string password, string salt, string magic){
 	string alternatesum = md5( password + salt + password);
+    // char alternatesum_array[alternatesum.length()+1];
+    // strcpy(alternatesum_array, alternatesum.c_str());
+    // for (int i = 0; i < 33; i++){
+    //     cout << alternatesum_array[i] << endl;
+    // }
     //string alternatesum = md5("" + password + salt + password);
 	string substr4 = ""; //length(password) bytes of the Alternate sum, repeated as necessary
-	for (int i = 0; i < password.length(); i++){
+	for (int i = 0; i < password.length(); i+=2){
 		//substr4 = substr4 + "" + alternatesum.at(i);
-        substr4 += alternatesum.at(i);
+        string subalternatesum = alternatesum.substr(i, 2);
+        char alternatesum_array[subalternatesum.length()+1];
+        strcpy(alternatesum_array, subalternatesum.c_str());
+        char character = char((int)strtol(alternatesum_array, NULL , 16));
+        //cout << "hex " << alternatesum_array[i] << alternatesum_array[i+1]<< endl;
+        printf("%c\n", 198);
+        cout << "character " << ((char)198) << endl;
+        cout << "number " << (int)strtol(alternatesum_array, NULL, 16) << endl;
+        substr4 += character;
 	}
 	string substr5 = ""; //for each bit in length(password), from low to high and stopping after...
 	//int counter = 1;
@@ -36,8 +50,13 @@ string intermediateZero (string password, string salt, string magic){
             substr5 += password.at(0);
         }
     }
-    cout << "alternate sum " << alternatesum << endl;
+    string everything = "" + password + magic + salt + substr4 + substr5;
+    for (int i= 0; i < everything.length(); i++){
+        printf("%02x", everything.at(i));
+    }
+    cout << endl << "alternate sum " << alternatesum << endl;
     cout << password + magic + salt + substr4 + substr5 << endl;
+    cout << "intermediate 0: " << md5(password + magic + salt + substr4 + substr5) << endl;
 	return md5(password + magic + salt + substr4 + substr5);
 }
 
