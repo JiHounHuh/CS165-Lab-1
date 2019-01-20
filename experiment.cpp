@@ -6,7 +6,7 @@
 
 using namespace std;
 
-string intermediateZero (string password, string salt, string magic){
+string intermediateZero (string &password, string &salt, string &magic){
 	string alternatesum = md5( password + salt + password);
     // char alternatesum_array[alternatesum.length()+1];
     // strcpy(alternatesum_array, alternatesum.c_str());
@@ -15,16 +15,18 @@ string intermediateZero (string password, string salt, string magic){
     // }
     //string alternatesum = md5("" + password + salt + password);
 	string substr4 = ""; //length(password) bytes of the Alternate sum, repeated as necessary
-	for (int i = 0; i < password.length(); i+=2){
+	for (int i = 0; i < password.length(); i++){
 		//substr4 = substr4 + "" + alternatesum.at(i);
-        string subalternatesum = alternatesum.substr(i, 2);
+        string subalternatesum = alternatesum.substr(i*2, 2);
         char alternatesum_array[subalternatesum.length()+1];
         strcpy(alternatesum_array, subalternatesum.c_str());
-        char character = char((int)strtol(alternatesum_array, NULL , 16));
+        int characternum = (int)(strtol(alternatesum_array, NULL , 16));
+        unsigned char character = (unsigned char)(characternum);
         //cout << "hex " << alternatesum_array[i] << alternatesum_array[i+1]<< endl;
-        printf("%c\n", 198);
-        cout << "character " << ((char)198) << endl;
-        cout << "number " << (int)strtol(alternatesum_array, NULL, 16) << endl;
+        printf("%02x", character);
+        cout << endl << "character " << character << endl;
+        cout << "number " << characternum << endl;
+        //cout << "number " << (int)strtol(alternatesum_array, NULL, 16) << endl;
         substr4 += character;
 	}
 	string substr5 = ""; //for each bit in length(password), from low to high and stopping after...
@@ -44,7 +46,7 @@ string intermediateZero (string password, string salt, string magic){
 	// }
     for (int i = password.length(); i != 0; i >>= 1){
         if (i & 1){
-            substr5 += "\0";
+            substr5 += '\0';
         }
         else{
             substr5 += password.at(0);
@@ -322,6 +324,6 @@ int main() {
     hash = "pZg4uQ9ur9356fohTDh9u/"; 
     string randomhex = "0cc175b9c0f1b6a831c399e269772661";
     //cout << "Correct password is : " << generatePassword(salt,magic,hash) << endl;
-    cout << "hash " << generateHash("a", salt, magic) << endl;
+    cout << "hash " << generateHash("abc", salt, magic) << endl;
 
 }
