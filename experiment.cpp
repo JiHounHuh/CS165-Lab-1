@@ -190,6 +190,21 @@ string generateHash(string password, string salt, string magic)
 {
     string intermediate = intermediateZero(password, salt, magic);
     // cout << "Intermediate: " << intermediate << endl;
+    string convertedintermediate = "";
+    for (int i = 0; i < intermediate.length()-1; i+=2){
+        //substr4 = substr4 + "" + alternatesum.at(i);
+        string hexval = intermediate.substr(i, 2);
+        char hexval_array[hexval.length()+1];
+        strcpy(hexval_array, hexval.c_str());
+        int characternum = (int)(strtol(hexval_array, NULL , 16));
+        unsigned char character = (unsigned char)(characternum);
+        //cout << "hex " << alternatesum_array[i] << alternatesum_array[i+1]<< endl;
+        //printf("%02x", character);
+        //cout << endl << "character " << character << endl;
+        //cout << "number " << characternum << endl;
+        //cout << "number " << (int)strtol(alternatesum_array, NULL, 16) << endl;
+        convertedintermediate += character;
+    }
 
     // cout << endl;
     // cout << endl;
@@ -204,14 +219,41 @@ string generateHash(string password, string salt, string magic)
     //cout << "Intermediate Hashed: " << md5(intermediate) << endl;
     string sample = "";
     for(int i = 0; i < 1000; i++) {
-        if(i%2 == 0) sample += intermediate;
-        if(i%2 == 1) sample += password;
+        if(i%2 == 0) sample += convertedintermediate;
+        //if(i%2 == 1) sample += password;
+        else sample += password;
         if(i%3 != 0) sample += salt;
         if(i%7 != 0) sample += password;
         if(i%2 == 0) sample += password;
-        if(i%2 == 1) sample += intermediate;
+        //if(i%2 == 1) sample += intermediate;
+        else sample += convertedintermediate;
         //HASH FUNCTION (sample);
+        if (i == 0){
+            cout << "sample " << sample << endl;
+        }
+        //for (int i = 0; i < password.length(); i++){
+        //substr4 = substr4 + "" + alternatesum.at(i);
         intermediate = md5(sample);
+        if (i == 0){
+            cout << "intermediate 1 " << intermediate << endl;
+        }
+        convertedintermediate = "";
+        if (i != 999){
+            for (int i = 0; i < intermediate.length()-1; i+=2){
+            //substr4 = substr4 + "" + alternatesum.at(i);
+                string hexval = intermediate.substr(i, 2);
+                char hexval_array[hexval.length()+1];
+                strcpy(hexval_array, hexval.c_str());
+                int characternum = (int)(strtol(hexval_array, NULL , 16));
+                unsigned char character = (unsigned char)(characternum);
+                //cout << "hex " << alternatesum_array[i] << alternatesum_array[i+1]<< endl;
+                //printf("%02x", character);
+                //cout << endl << "character " << character << endl;
+                //cout << "number " << characternum << endl;
+                //cout << "number " << (int)strtol(alternatesum_array, NULL, 16) << endl;
+                convertedintermediate += character;
+            }
+        }
         sample = "";
       //  if (i == 999) cout << i << endl;
     }
