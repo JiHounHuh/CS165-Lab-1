@@ -3,17 +3,11 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
-
+#include <iomanip>
 using namespace std;
 
 string intermediateZero (string &password, string &salt, string &magic){
 	string alternatesum = md5( password + salt + password);
-    // char alternatesum_array[alternatesum.length()+1];
-    // strcpy(alternatesum_array, alternatesum.c_str());
-    // for (int i = 0; i < 33; i++){
-    //     cout << alternatesum_array[i] << endl;
-    // }
-    //string alternatesum = md5("" + password + salt + password);
 	string substr4 = ""; //length(password) bytes of the Alternate sum, repeated as necessary
 	for (int i = 0; i < password.length(); i++){
 		//substr4 = substr4 + "" + alternatesum.at(i);
@@ -24,26 +18,12 @@ string intermediateZero (string &password, string &salt, string &magic){
         unsigned char character = (unsigned char)(characternum);
         //cout << "hex " << alternatesum_array[i] << alternatesum_array[i+1]<< endl;
         printf("%02x", character);
-        cout << endl << "character " << character << endl;
-        cout << "number " << characternum << endl;
+        // cout << endl << "character " << character << endl;
+        // cout << "number " << characternum << endl;
         //cout << "number " << (int)strtol(alternatesum_array, NULL, 16) << endl;
         substr4 += character;
 	}
 	string substr5 = ""; //for each bit in length(password), from low to high and stopping after...
-	//int counter = 1;
-	//int num = 2;
-	// while (counter < password.length()){
-	// 	int mask = 1 << num;
-	// 	int isolatebit = ((password.length() >> 2-num) << num) & mask;
-	// 	if (isolatebit == 1){
-	// 		substr5 = substr5 + "\0"; 
-	// 	}
-	// 	else{
-	// 		substr5 = substr5 + "" + password.at(0);
-	// 	}
-	// 	counter  = counter + counter<<1;
-	// 	num--;
-	// }
     for (int i = password.length(); i != 0; i >>= 1){
         if (i & 1){
             substr5 += '\0';
@@ -52,52 +32,52 @@ string intermediateZero (string &password, string &salt, string &magic){
             substr5 += password.at(0);
         }
     }
-    string everything = "" + password + magic + salt + substr4 + substr5;
-    for (int i= 0; i < everything.length(); i++){
-        printf("%02x", everything.at(i));
-    }
-    cout << endl << "alternate sum " << alternatesum << endl;
-    cout << password + magic + salt + substr4 + substr5 << endl;
-    cout << "intermediate 0: " << md5(password + magic + salt + substr4 + substr5) << endl;
+    // string everything = "" + password + magic + salt + substr4 + substr5;
+    // for (int i= 0; i < everything.length(); i++){
+    //     printf("%02x", everything.at(i));
+    // }
+    // cout << endl << "alternate sum " << alternatesum << endl;
+    // cout << password + magic + salt + substr4 + substr5 << endl;
+    // cout << "intermediate 0: " << md5(password + magic + salt + substr4 + substr5) << endl;
 	return md5(password + magic + salt + substr4 + substr5);
 }
 
-string binToB64(string convert) {
-    string b64="./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    string fuck;
-    string bitch = "";
-    int ass;
+// string binToB64(string convert) {
+//     string b64="./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+//     string fuck;
+//     string bitch = "";
+//     int ass;
     
-    for(int j = 5; j < convert.length();j+=6) {
-        fuck = convert.substr(j-5,6);
-        ass = stoi(fuck,nullptr,2);
-        bitch += b64.at(ass);
-       // cout << j << endl;
-    }
-  //  cout << "Bitch" << endl;
-    return bitch;
-}
+//     for(int j = 5; j < convert.length();j+=6) {
+//         fuck = convert.substr(j-5,6);
+//         ass = stoi(fuck,nullptr,2);
+//         bitch += b64.at(ass);
+//        // cout << j << endl;
+//     }
+//   //  cout << "Bitch" << endl;
+//     return bitch;
+// }
 
-const char* hexToBin(char hex) {
-    switch(toupper(hex)) {
-        case '0': return "0000";
-        case '1': return "0001";
-        case '2': return "0010";
-        case '3': return "0011";
-        case '4': return "0100";
-        case '5': return "0101";
-        case '6': return "0110";
-        case '7': return "0111";
-        case '8': return "1000";
-        case '9': return "1001";
-        case 'A': return "1010";
-        case 'B': return "1011";
-        case 'C': return "1100";
-        case 'D': return "1101";
-        case 'E': return "1110";
-        case 'F': return "1111";
-    }
-}
+// const char* hexToBin(char hex) {
+//     switch(toupper(hex)) {
+//         case '0': return "0000";
+//         case '1': return "0001";
+//         case '2': return "0010";
+//         case '3': return "0011";
+//         case '4': return "0100";
+//         case '5': return "0101";
+//         case '6': return "0110";
+//         case '7': return "0111";
+//         case '8': return "1000";
+//         case '9': return "1001";
+//         case 'A': return "1010";
+//         case 'B': return "1011";
+//         case 'C': return "1100";
+//         case 'D': return "1101";
+//         case 'E': return "1110";
+//         case 'F': return "1111";
+//     }
+// }
 
 string encodeBase(string hash) {
    // int len;
@@ -114,54 +94,55 @@ string encodeBase(string hash) {
     
     string bin = "";
     for(int p = 0; p < hash.length(); p++) {
-      //  cout << "Hello" << endl;
         bin += hexToBin(hash.at(p));
-      //  cout << "Bye" << endl;
     }
     for(int j = 7; j < bin.length(); j+= 8) {
        death.push_back(bin.substr(j-7,8));
    }
     for(int test = 0; test < 16; test++) {
-        //cout << test << endl;
-        //cout << death.size() << endl;
         hexed += death.at(crypt[test]);
-       // cout << hexed << endl;
     }
    // cout << "after" << endl;
     return binToB64(hexed);
 }
+const string b64="./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 //==========================================================================================
-string base64(int hash, int amount) {
-    string pin = "";
-    string b64="./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-     int test = hash & 0x3f;
-    for(; amount >= 0; --amount) {
-        cout << "hash value: " << hash << endl;
-       
-        cout << "hash plus something: " << test << endl;
+string base64(unsigned int hash, int amount) {
+   string pin;
+    int test = hash & 0x3f;
+    for(int i = amount; i > 0 ; --i) {
+        // cout << "hash value: " << hash << endl;
+        // cout << "hash plus something: " << test << endl;
         pin += b64.at(hash & 0x3f);
-        //hash = (hash >> 6);
-        hash >>= 6;
+        hash = (hash >> 6);
+       // hash >>= 6;
     }
+
     // while(--amount >= 0) {
     //     pin += b64.at(hash & 0x3f);
-    //     hash = (hash >> 6);
+    //     //hash = (hash >> 6);
+    //     hash >>= 6;
     // }
-    cout << "done with encode: "<< pin << endl;
+    // cout << "done with encode: "<< pin << endl;
     return pin;
 }
 
-string to64_tripleGroup(string hash, int first, int second, int third) {
-    int semi = (hash.at(first) << 16) | 
-                (hash.at(second) << 8) |
-                (hash.at(third));
-    cout << "Hash String: " << hash << endl;
-    cout << "triple value: " << (hash.at(first) << 16) << endl;
+string to64_tripleGroup(string hash, unsigned int first, unsigned int second, unsigned int third) {
+    unsigned int semi = ((static_cast<unsigned char>(hash.at(first)) << 16)) |
+                (static_cast<unsigned char>(hash.at(second))<<8) |
+                (static_cast<unsigned char>(hash.at(third)));
+    
+    // cout << "Hash String: " << hash << endl;
+
+    // cout << "Semi: " << hex << semi << endl;
+    // cout << "triple one: " << hex << (static_cast<unsigned char>(hash.at(first)) << 16) << endl;
+    // cout << "triple two: " << hex << ((static_cast<unsigned char>(hash.at(second)) << 8)) << endl;
+    // cout << "triple three: " << hex << static_cast<unsigned char>(hash.at(third)) << endl;
     return base64(semi, 4);
 }
 
-string to64_singleGroup(string hash, int first) {
-    int semi = hash.at(first);
+string to64_singleGroup(string hash, unsigned int first) {
+    unsigned int semi = hash.at(first);
     return base64(semi, 2);
 }
 
@@ -176,27 +157,23 @@ string encryption(string hash) {
     finalProduct += to64_tripleGroup(hash, 4, 10, 5);
     finalProduct += to64_singleGroup(hash, 11);
     return finalProduct;
-
-//     return to64_tripleGroup(hash, 0,  6, 12) +
-//    to64_tripleGroup(hash, 1,  7, 13) +
-//    to64_tripleGroup(hash, 2,  8, 14) +
-//    to64_tripleGroup(hash, 3,  9, 15) +
-//    to64_tripleGroup(hash, 4, 10,  5) +
-//    to64_singleGroup(hash, 11);
-   //  11 | 4 10 5 | 3 9 15 | 2 8 14 | 1 7 13 | 0 6 12
+//     return "$1$hfT7jp2q$" + to64_tripleGroup(hash, 0, 6, 12) + to64_tripleGroup(hash, 1, 7, 13)
+//      +to64_tripleGroup(hash, 2, 8, 14)
+//      +to64_tripleGroup(hash, 3, 9, 15)
+//      +to64_tripleGroup(hash, 4, 10, 5)
+//      +to64_singleGroup(hash, 11);
 }
 //==========================================================================================
 string generateHash(string password, string salt, string magic)
 {
     string intermediate = intermediateZero(password, salt, magic);
-    // cout << "Intermediate: " << intermediate << endl;
     string convertedintermediate = "";
     for (int i = 0; i < intermediate.length()-1; i+=2){
         //substr4 = substr4 + "" + alternatesum.at(i);
-        string hexval = intermediate.substr(i, 2);
-        char hexval_array[hexval.length()+1];
-        strcpy(hexval_array, hexval.c_str());
-        int characternum = (int)(strtol(hexval_array, NULL , 16));
+        string hexVal = intermediate.substr(i, 2);
+        char hexVal_array[hexVal.length()+1];
+        strcpy(hexVal_array, hexVal.c_str());
+        int characternum = (int)(strtol(hexVal_array, NULL , 16));
         unsigned char character = (unsigned char)(characternum);
         //cout << "hex " << alternatesum_array[i] << alternatesum_array[i+1]<< endl;
         //printf("%02x", character);
@@ -205,18 +182,6 @@ string generateHash(string password, string salt, string magic)
         //cout << "number " << (int)strtol(alternatesum_array, NULL, 16) << endl;
         convertedintermediate += character;
     }
-
-    // cout << endl;
-    // cout << endl;
-    // cout << endl;
-    // cout << endl;
-    // cout << endl;
-    // cout << endl;
-    // cout << endl;
-    // cout << endl;
-    // cout << endl;
-    //string dummy = md5(sample);
-    //cout << "Intermediate Hashed: " << md5(intermediate) << endl;
     string sample = "";
     for(int i = 0; i < 1000; i++) {
         if(i%2 == 0) sample += convertedintermediate;
@@ -234,38 +199,38 @@ string generateHash(string password, string salt, string magic)
         //for (int i = 0; i < password.length(); i++){
         //substr4 = substr4 + "" + alternatesum.at(i);
         intermediate = md5(sample);
-        if (i == 0){
-            cout << "intermediate 1 " << intermediate << endl;
+        if (i == 0 || i == 999) {
+            cout << "intermediate " << i << " " << intermediate << endl;
         }
         convertedintermediate = "";
-        if (i != 999){
-            for (int i = 0; i < intermediate.length()-1; i+=2){
+        
+        for (int i = 0; i < intermediate.length()-1; i+=2){
             //substr4 = substr4 + "" + alternatesum.at(i);
-                string hexval = intermediate.substr(i, 2);
-                char hexval_array[hexval.length()+1];
-                strcpy(hexval_array, hexval.c_str());
-                int characternum = (int)(strtol(hexval_array, NULL , 16));
-                unsigned char character = (unsigned char)(characternum);
-                //cout << "hex " << alternatesum_array[i] << alternatesum_array[i+1]<< endl;
-                //printf("%02x", character);
-                //cout << endl << "character " << character << endl;
-                //cout << "number " << characternum << endl;
-                //cout << "number " << (int)strtol(alternatesum_array, NULL, 16) << endl;
-                convertedintermediate += character;
-            }
+            string hexval = intermediate.substr(i, 2);
+            char hexval_array[hexval.length()+1];
+            strcpy(hexval_array, hexval.c_str());
+            unsigned int characternum = (unsigned int)(strtol(hexval_array, NULL , 16));
+            unsigned char character = (unsigned char)(characternum);
+            convertedintermediate += character;
         }
         sample = "";
       //  if (i == 999) cout << i << endl;
     }
-    //string checkup= "";
-   // checkup = encodeBase(intermediate);
-   //cout << encodeBase(intermediate) << endl;
-    //return intermediate;
+
     cout << "intermediate loop 1000: " << intermediate << endl;
-    return encryption(intermediate);
-    //return encodeBase(intermediate);
-  //  cout << "encodeBase" << endl;
-    //return checkup;
+    cout << "convertedIntermediate: " << convertedintermediate << endl;
+
+     cout << "Length of converted: " << convertedintermediate.length() << endl;
+    cout << "intermed length: " << intermediate.length() << endl;
+    for (int i= 0; i < convertedintermediate.length(); i++){
+       // if(convertedintermediate.at(i) == 'f') convertedintermediate.at(i) = '0';
+       cout << "Char value at " << i << ": " << static_cast<unsigned int>(convertedintermediate[i]) << endl;
+    //    cout << hex << static_cast<unsigned int>(convertedintermediate[i]);
+        // printf("%02x", convertedintermediate.at(i));
+    }
+    cout << endl;
+   
+    return encryption(convertedintermediate);
 }
 
 string generatePassword (string salt, string magic, string correctHash){
@@ -273,7 +238,8 @@ string generatePassword (string salt, string magic, string correctHash){
     string result, resultHash;
 	for (int i = 97; i < 123; i++){
         counter++;
-		result = "" + char(i);
+		result = char(i);
+        cout << "this is doge: " << result << endl;
 		resultHash = generateHash(result, salt, magic);
         //cout << "1" << endl;
         cout << char(i) << endl;
@@ -365,7 +331,8 @@ int main() {
     magic = "$1$";
     hash = "pZg4uQ9ur9356fohTDh9u/"; 
     string randomhex = "0cc175b9c0f1b6a831c399e269772661";
-    //cout << "Correct password is : " << generatePassword(salt,magic,hash) << endl;
-    cout << "hash " << generateHash("abc", salt, magic) << endl;
+   // cout << "Correct password is : " << generatePassword(salt,magic,hash) << endl;
+    cout << "hash " << generateHash("a", salt, magic) << endl;
+    //cout << "encoded: " << encryption("1ae81cb72edfc9b7524ad37a753af7c8") << endl;
 
 }
