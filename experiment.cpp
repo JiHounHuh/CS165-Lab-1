@@ -79,32 +79,32 @@ string intermediateZero (string &password, string &salt, string &magic){
 //     }
 // }
 
-string encodeBase(string hash) {
-   // int len;
-    //len = 16;
-    string hexed = "";
-    int place = 0;
-    vector<string> death;
-    static const int crypt[] = {11,4,10,5,3,9,15,2,8,14,1,7,13,0,6,12};
+// string encodeBase(string hash) {
+//    // int len;
+//     //len = 16;
+//     string hexed = "";
+//     int place = 0;
+//     vector<string> death;
+//     static const int crypt[] = {11,4,10,5,3,9,15,2,8,14,1,7,13,0,6,12};
    
-   //cout << hash << endl;
-    //static const int crypt[] = {11,4,10,5,3,9,15,2,8,14,1,7,13,0,6,12};
-    //vector<int> crypt = {11, 4, 10, 5, 3, 9, 15, 2, 8, 14, 1, 7, 13, 0, 6, 12};
-    //vector<int> crypt (arr, arr + sizeof(arr) / sizeof(arr[0]));
+//    //cout << hash << endl;
+//     //static const int crypt[] = {11,4,10,5,3,9,15,2,8,14,1,7,13,0,6,12};
+//     //vector<int> crypt = {11, 4, 10, 5, 3, 9, 15, 2, 8, 14, 1, 7, 13, 0, 6, 12};
+//     //vector<int> crypt (arr, arr + sizeof(arr) / sizeof(arr[0]));
     
-    string bin = "";
-    for(int p = 0; p < hash.length(); p++) {
-        bin += hexToBin(hash.at(p));
-    }
-    for(int j = 7; j < bin.length(); j+= 8) {
-       death.push_back(bin.substr(j-7,8));
-   }
-    for(int test = 0; test < 16; test++) {
-        hexed += death.at(crypt[test]);
-    }
-   // cout << "after" << endl;
-    return binToB64(hexed);
-}
+//     string bin = "";
+//     for(int p = 0; p < hash.length(); p++) {
+//         bin += hexToBin(hash.at(p));
+//     }
+//     for(int j = 7; j < bin.length(); j+= 8) {
+//        death.push_back(bin.substr(j-7,8));
+//    }
+//     for(int test = 0; test < 16; test++) {
+//         hexed += death.at(crypt[test]);
+//     }
+//    // cout << "after" << endl;
+//     return binToB64(hexed);
+// }
 const string b64="./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 //==========================================================================================
 string base64(unsigned int hash, int amount) {
@@ -217,18 +217,18 @@ string generateHash(string password, string salt, string magic)
       //  if (i == 999) cout << i << endl;
     }
 
-    cout << "intermediate loop 1000: " << intermediate << endl;
-    cout << "convertedIntermediate: " << convertedintermediate << endl;
+    // cout << "intermediate loop 1000: " << intermediate << endl;
+    // cout << "convertedIntermediate: " << convertedintermediate << endl;
 
-     cout << "Length of converted: " << convertedintermediate.length() << endl;
-    cout << "intermed length: " << intermediate.length() << endl;
-    for (int i= 0; i < convertedintermediate.length(); i++){
-       // if(convertedintermediate.at(i) == 'f') convertedintermediate.at(i) = '0';
-       cout << "Char value at " << i << ": " << static_cast<unsigned int>(convertedintermediate[i]) << endl;
-    //    cout << hex << static_cast<unsigned int>(convertedintermediate[i]);
-        // printf("%02x", convertedintermediate.at(i));
-    }
-    cout << endl;
+    //  cout << "Length of converted: " << convertedintermediate.length() << endl;
+    // cout << "intermed length: " << intermediate.length() << endl;
+    // for (int i= 0; i < convertedintermediate.length(); i++){
+    //    // if(convertedintermediate.at(i) == 'f') convertedintermediate.at(i) = '0';
+    //    //cout << "Char value at " << i << ": " << static_cast<unsigned int>(convertedintermediate[i]) << endl;
+    // //    cout << hex << static_cast<unsigned int>(convertedintermediate[i]);
+    //     // printf("%02x", convertedintermediate.at(i));
+    // }
+    //cout << endl;
    
     return encryption(convertedintermediate);
 }
@@ -331,8 +331,8 @@ int main() {
     magic = "$1$";
     hash = "pZg4uQ9ur9356fohTDh9u/"; 
     string randomhex = "0cc175b9c0f1b6a831c399e269772661";
-   // cout << "Correct password is : " << generatePassword(salt,magic,hash) << endl;
-    cout << "hash " << generateHash("a", salt, magic) << endl;
+    cout << "Correct password is : " << generatePassword(salt,magic,hash) << endl;
+    //cout << "hash " << generateHash("a", salt, magic) << endl;
     //cout << "encoded: " << encryption("1ae81cb72edfc9b7524ad37a753af7c8") << endl;
 
 }
