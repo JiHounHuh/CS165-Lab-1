@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
+#include <ctime>
+#include <cstdio>
 #include <iomanip>
 #include <thread>
 using namespace std;
@@ -18,7 +20,7 @@ string intermediateZero (string &password, string &salt, string &magic){
         int characternum = (int)(strtol(alternatesum_array, NULL , 16));
         unsigned char character = (unsigned char)(characternum);
         //cout << "hex " << alternatesum_array[i] << alternatesum_array[i+1]<< endl;
-        printf("%02x", character);
+       // printf("%02x", character);
         // cout << endl << "character " << character << endl;
         // cout << "number " << characternum << endl;
         //cout << "number " << (int)strtol(alternatesum_array, NULL, 16) << endl;
@@ -194,15 +196,15 @@ string generateHash(string password, string salt, string magic)
         //if(i%2 == 1) sample += intermediate;
         else sample += convertedintermediate;
         //HASH FUNCTION (sample);
-        if (i == 0){
-            cout << "sample " << sample << endl;
-        }
+        // if (i == 0){
+        //     cout << "sample " << sample << endl;
+        // }
         //for (int i = 0; i < password.length(); i++){
         //substr4 = substr4 + "" + alternatesum.at(i);
         intermediate = md5(sample);
-        if (i == 0 || i == 999) {
-            cout << "intermediate " << i << " " << intermediate << endl;
-        }
+        // if (i == 0 || i == 999) {
+        //     cout << "intermediate " << i << " " << intermediate << endl;
+        // }
         convertedintermediate = "";
         
         for (int i = 0; i < intermediate.length()-1; i+=2){
@@ -235,17 +237,24 @@ string generateHash(string password, string salt, string magic)
 }
 
 void generatePassword (string salt, string magic, string correctHash, int start, int end){
-    long long counter = 0;
+    int counter = 0;
+    clock_t time_a = clock();
     string result, resultHash;
     for (int i = start; i < end; i++){
         counter++;
         result = char(i);
-        cout << "this is doge: " << result << endl;
+        //cout << "this is doge: " << result << endl;
         resultHash = generateHash(result, salt, magic);
         //cout << "1" << endl;
-        cout << char(i) << endl;
+        //cout << char(i) << endl;
         if (resultHash == correctHash){
             cout << "password is: " << result<<endl;
+            clock_t time_b = clock();
+            unsigned int total_time_ticks = (unsigned int)(time_b - time_a);
+            cout << "Completed " << counter << " iterations" << endl;
+            double seconds = static_cast<double>(total_time_ticks) / CLOCKS_PER_SEC;
+            cout << "Took: " << seconds << endl;
+            cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
             return;
         }
         for (int j = 97; j < 123; j++){
@@ -253,9 +262,15 @@ void generatePassword (string salt, string magic, string correctHash, int start,
             result += char(j);
             resultHash = generateHash(result, salt, magic);
             //cout << "2" << endl;
-            cout << char(j) << endl;
+           // cout << char(j) << endl;
             if (resultHash == correctHash){
                 cout << "password is: " << result<<endl;
+                clock_t time_b = clock();
+                unsigned int total_time_ticks = (unsigned int)(time_b - time_a);
+                cout << "Completed " << counter << " iterations" << endl;
+                double seconds = static_cast<double>(total_time_ticks) / CLOCKS_PER_SEC;
+                cout << "Took: " << seconds << endl;
+                cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
                 return;
             }
             for (int k = 97; k < 123; k++){
@@ -263,19 +278,31 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                 result += char(k);
                 resultHash = generateHash(result, salt, magic);
                 //cout << "3" << endl;
-                cout << char(k) << endl;
+              //  cout << char(k) << endl;
                 if (resultHash == correctHash){
                     cout << "password is: " << result<<endl;
+                    clock_t time_b = clock();
+                    unsigned int total_time_ticks = (unsigned int)(time_b - time_a);
+                    cout << "Completed " << counter << " iterations" << endl;
+                    double seconds = static_cast<double>(total_time_ticks) / CLOCKS_PER_SEC;
+                    cout << "Took: " << seconds << endl;
+                    cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
                     return;
                 }
                 for (int f = 97; f < 123; f++){
                     counter++;
                     result += char(f);
                     resultHash = generateHash(result, salt, magic);
-                    cout << char(f) << endl;
+                  //  cout << char(f) << endl;
                     //cout << "4" << endl;
                     if (resultHash == correctHash){
                         cout << "password is: " << result<<endl;
+                        clock_t time_b = clock();
+                        unsigned int total_time_ticks = (unsigned int)(time_b - time_a);
+                        cout << "Completed " << counter << " iterations" << endl;
+                        double seconds = static_cast<double>(total_time_ticks) / CLOCKS_PER_SEC;
+                        cout << "Took: " << seconds << endl;
+                        cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
                         return;
                     }
                     for (int d = 97; d < 123; d++){
@@ -283,9 +310,15 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                         result += char(d);
                         resultHash = generateHash(result, salt, magic);
                         //cout << "5" << endl;
-                        cout << char(d) << endl;
+                     //   cout << char(d) << endl;
                         if (resultHash == correctHash){
                             cout << "password is: " << result<<endl;
+                            clock_t time_b = clock();
+                            unsigned int total_time_ticks = (unsigned int)(time_b - time_a);
+                            cout << "Completed " << counter << " iterations" << endl;
+                            double seconds = static_cast<double>(total_time_ticks) / CLOCKS_PER_SEC;
+                            cout << "Took: " << seconds << endl;
+                            cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
                             return;
                         }
                         for (int s = 97; s < 123; s++){
@@ -297,37 +330,44 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                             //cout << s+1 << endl;
                             //cout << char(s+1) << endl;
                             //cout << char(122) << endl;
-                            cout << char(s) << endl;
+                        //    cout << char(s) << endl;
                             
                             if (resultHash == correctHash){
                                 //cout << "6 done" << endl;
                                 cout << "password is: " << result<<endl;
+                                clock_t time_b = clock();
+                                unsigned int total_time_ticks = (unsigned int)(time_b - time_a);
+                                cout << "Completed " << counter << " iterations" << endl;
+                                double seconds = static_cast<double>(total_time_ticks) / CLOCKS_PER_SEC;
+                                cout << "Took: " << seconds << endl;
+                                cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
+                                
                                 return;
                             }
                             //cout << "Done 6" << endl;
-                            cout << counter << endl;
+                      //      cout << counter << endl;
                             result.pop_back();
                         }
                         //cout << "Done 5" << endl;
-                        cout << counter << endl;
+                      //  cout << counter << endl;
                         result.pop_back();
                     }
                     //cout << "Done 4" << endl;
-                    cout << counter << endl;
+                 //   cout << counter << endl;
                     result.pop_back();
                 }
                 //cout << "Done 3" << endl;
-                cout << counter << endl;
+              //  cout << counter << endl;
                 result.pop_back();
             }   
             //cout << "Done 2" << endl; 
-            cout << counter << endl;
+           // cout << counter << endl;
             result.pop_back();
         }
         
        // cout << "Done 1" << endl;
-       cout << counter << endl;
-       cout << char(i) << endl;
+      // cout << counter << endl;
+      // cout << char(i) << endl;
     } 
     cout << "FOR DONE" << endl;
 }
@@ -336,16 +376,33 @@ int main() {
     string hash,salt,magic;
     salt = "hfT7jp2q";
     magic = "$1$";
-    hash = "pZg4uQ9ur9356fohTDh9u/"; 
+    hash = "KqcshpOfHc7VFTtiIZHPe1"; 
     // string randomhex = "0cc175b9c0f1b6a831c399e269772661";
-    thread th1(generatePassword, salt, magic, hash, 97, 104);
-    thread th2(generatePassword, salt, magic, hash, 104, 111);
-    thread th3(generatePassword, salt, magic, hash, 111, 117);
-    thread th4(generatePassword, salt, magic, hash, 117, 123);
+    thread th1(generatePassword, salt, magic, hash, 97, 99);
+    thread th2(generatePassword, salt, magic, hash, 99, 101);
+    thread th3(generatePassword, salt, magic, hash, 101, 103);
+    thread th4(generatePassword, salt, magic, hash, 103, 105);
+    thread th5(generatePassword, salt, magic, hash, 105, 107);
+    thread th6(generatePassword, salt, magic, hash, 107, 109);
+    thread th7(generatePassword, salt, magic, hash, 109, 112);
+    thread th8(generatePassword, salt, magic, hash, 112, 114);
+    thread th9(generatePassword, salt, magic, hash, 114, 116);
+    thread th10(generatePassword, salt, magic, hash, 116, 118);
+    thread th11(generatePassword, salt, magic, hash, 118, 120);
+    thread th12(generatePassword, salt, magic, hash, 120, 123);
     th1.join();
     th2.join();
     th3.join();
     th4.join();
+    th5.join();
+    th6.join();
+    th7.join();
+    th8.join();
+    th9.join();
+    th10.join();
+    th11.join();
+    th12.join();
+
     //cout << "Correct password is : " << generatePassword(salt,magic,hash) << endl;
     //cout << "hash " << generateHash("a", salt, magic) << endl;
 
