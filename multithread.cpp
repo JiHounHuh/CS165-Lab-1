@@ -7,6 +7,7 @@
 #include <cstdio>
 #include <iomanip>
 #include <thread>
+
 using namespace std;
 
 string intermediateZero (string &password, string &salt, string &magic){
@@ -110,7 +111,7 @@ string intermediateZero (string &password, string &salt, string &magic){
 // }
 const string b64="./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 //==========================================================================================
-string base64(unsigned int hash, int amount) {
+string base64(unsigned int &hash, int amount) {
    string pin;
     int test = hash & 0x3f;
     for(int i = amount; i > 0 ; --i) {
@@ -130,7 +131,7 @@ string base64(unsigned int hash, int amount) {
     return pin;
 }
 
-string to64_tripleGroup(string hash, unsigned int first, unsigned int second, unsigned int third) {
+string to64_tripleGroup(string &hash, unsigned int first, unsigned int second, unsigned int third) {
     unsigned int semi = ((static_cast<unsigned char>(hash.at(first)) << 16)) |
                 (static_cast<unsigned char>(hash.at(second))<<8) |
                 (static_cast<unsigned char>(hash.at(third)));
@@ -144,14 +145,14 @@ string to64_tripleGroup(string hash, unsigned int first, unsigned int second, un
     return base64(semi, 4);
 }
 
-string to64_singleGroup(string hash, unsigned int first) {
+string to64_singleGroup(string &hash, unsigned int first) {
     unsigned int semi = hash.at(first);
     return base64(semi, 2);
 }
 
 
-string encryption(string hash) {
-    cout << endl;
+string encryption(string &hash) {
+    //cout << endl;
     string finalProduct = "";
     finalProduct += to64_tripleGroup(hash, 0, 6, 12);
     finalProduct += to64_tripleGroup(hash, 1, 7, 13);
@@ -167,7 +168,7 @@ string encryption(string hash) {
 //      +to64_singleGroup(hash, 11);
 }
 //==========================================================================================
-string generateHash(string password, string salt, string magic)
+string generateHash(string &password, string &salt, string &magic)
 {
     string intermediate = intermediateZero(password, salt, magic);
     string convertedintermediate = "";
@@ -243,10 +244,7 @@ void generatePassword (string salt, string magic, string correctHash, int start,
     for (int i = start; i < end; i++){
         counter++;
         result = char(i);
-        //cout << "this is doge: " << result << endl;
         resultHash = generateHash(result, salt, magic);
-        //cout << "1" << endl;
-        //cout << char(i) << endl;
         if (resultHash == correctHash){
             cout << "password is: " << result<<endl;
             clock_t time_b = clock();
@@ -261,8 +259,6 @@ void generatePassword (string salt, string magic, string correctHash, int start,
             counter++;
             result += char(j);
             resultHash = generateHash(result, salt, magic);
-            //cout << "2" << endl;
-           // cout << char(j) << endl;
             if (resultHash == correctHash){
                 cout << "password is: " << result<<endl;
                 clock_t time_b = clock();
@@ -402,7 +398,6 @@ int main() {
     th10.join();
     th11.join();
     th12.join();
-
     //cout << "Correct password is : " << generatePassword(salt,magic,hash) << endl;
     //cout << "hash " << generateHash("a", salt, magic) << endl;
 
