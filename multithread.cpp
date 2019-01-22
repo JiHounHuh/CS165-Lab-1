@@ -255,9 +255,10 @@ void generatePassword (string salt, string magic, string correctHash, int start,
             cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
             return;
         }
-        for (int j = 97; j < 123; j++){
+        for (int j = 122; j > 96; j--){
             counter++;
             result += char(j);
+            cout << "Second" << endl;
             resultHash = generateHash(result, salt, magic);
             if (resultHash == correctHash){
                 cout << "password is: " << result<<endl;
@@ -269,7 +270,7 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                 cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
                 return;
             }
-            for (int k = 97; k < 123; k++){
+            for (int k = 122; k > 96; k--){
                 counter++;
                 result += char(k);
                 resultHash = generateHash(result, salt, magic);
@@ -285,7 +286,7 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                     cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
                     return;
                 }
-                for (int f = 97; f < 123; f++){
+                for (int f = 122; f > 96; f--){
                     counter++;
                     result += char(f);
                     resultHash = generateHash(result, salt, magic);
@@ -301,7 +302,7 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                         cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
                         return;
                     }
-                    for (int d = 97; d < 123; d++){
+                    for (int d = 122; d > 96; d--){
                         counter++;
                         result += char(d);
                         resultHash = generateHash(result, salt, magic);
@@ -317,7 +318,7 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                             cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
                             return;
                         }
-                        for (int s = 97; s < 123; s++){
+                        for (int s = 122; s > 96; s--){
                             counter++;
                             result += char(s);
                             //if(s < 123) {result += char(s+1);}
@@ -374,30 +375,30 @@ int main() {
     magic = "$1$";
     hash = "KqcshpOfHc7VFTtiIZHPe1"; 
     // string randomhex = "0cc175b9c0f1b6a831c399e269772661";
-    thread th1(generatePassword, salt, magic, hash, 97, 99);
-    thread th2(generatePassword, salt, magic, hash, 99, 101);
-    thread th3(generatePassword, salt, magic, hash, 101, 103);
-    thread th4(generatePassword, salt, magic, hash, 103, 105);
-    thread th5(generatePassword, salt, magic, hash, 105, 107);
-    thread th6(generatePassword, salt, magic, hash, 107, 109);
-    thread th7(generatePassword, salt, magic, hash, 109, 112);
-    thread th8(generatePassword, salt, magic, hash, 112, 114);
-    thread th9(generatePassword, salt, magic, hash, 114, 116);
-    thread th10(generatePassword, salt, magic, hash, 116, 118);
-    thread th11(generatePassword, salt, magic, hash, 118, 120);
-    thread th12(generatePassword, salt, magic, hash, 120, 123);
+    thread th1(generatePassword, salt, magic, hash, 105, 106);
+    thread th2(generatePassword, salt, magic, hash, 106, 107);
+    thread th3(generatePassword, salt, magic, hash, 107, 108);
+    thread th4(generatePassword, salt, magic, hash, 108, 109);
+    // thread th5(generatePassword, salt, magic, hash, 105, 107);
+    // thread th6(generatePassword, salt, magic, hash, 107, 109);
+    // thread th7(generatePassword, salt, magic, hash, 109, 112);
+    // thread th8(generatePassword, salt, magic, hash, 112, 114);
+    // thread th9(generatePassword, salt, magic, hash, 114, 116);
+    // thread th10(generatePassword, salt, magic, hash, 116, 118);
+    // thread th11(generatePassword, salt, magic, hash, 118, 120);
+    // thread th12(generatePassword, salt, magic, hash, 120, 123);
     th1.join();
     th2.join();
     th3.join();
     th4.join();
-    th5.join();
-    th6.join();
-    th7.join();
-    th8.join();
-    th9.join();
-    th10.join();
-    th11.join();
-    th12.join();
+    // th5.join();
+    // th6.join();
+    // th7.join();
+    // th8.join();
+    // th9.join();
+    // th10.join();
+    // th11.join();
+    // th12.join();
     //cout << "Correct password is : " << generatePassword(salt,magic,hash) << endl;
     //cout << "hash " << generateHash("a", salt, magic) << endl;
 
