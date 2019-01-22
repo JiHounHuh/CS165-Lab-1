@@ -236,12 +236,10 @@ string generateHash(string &password, string &salt, string &magic)
    
     return encryption(convertedintermediate);
 }
-
-void generatePassword (string salt, string magic, string correctHash, int start, int end){
+void generatePassword1(string salt, string magic, string correctHash){
     int counter = 0;
     clock_t time_a = clock();
     string result, resultHash;
-    
     for (int i = 97; i < 123; i++){   //check passwords of 1 character
         result  = char(i);
         resultHash = generateHash(result, salt, magic);
@@ -257,6 +255,14 @@ void generatePassword (string salt, string magic, string correctHash, int start,
         }
     }
     cout << "password is more than 1 char long" << endl;
+    return;
+}
+
+void generatePassword2(string salt, string magic, string correctHash){
+    int counter = 0;
+    clock_t time_a = clock();
+    string result, resultHash;
+    
 
     for (int i = 97; i < 123; i++){   //check passwords of 2 character
         result  = char(i);
@@ -278,6 +284,14 @@ void generatePassword (string salt, string magic, string correctHash, int start,
         result.pop_back();
     }
     cout << "password is more than 2 char long" << endl;
+    return;
+}
+
+void generatePassword3(string salt, string magic, string correctHash){
+    int counter = 0;
+    clock_t time_a = clock();
+    string result, resultHash;
+    
 
     for (int i = 97; i < 123; i++){   //check passwords of 3 character
         result  = char(i);
@@ -303,8 +317,16 @@ void generatePassword (string salt, string magic, string correctHash, int start,
         result.pop_back();
     }
     cout << "password is more than 3 char long" << endl;
+    return;
+}
 
-    for (int i = 97; i < 123; i++){   //check passwords of 4 character
+void generatePassword4(string salt, string magic, string correctHash, int start, int end){
+    int counter = 0;
+    clock_t time_a = clock();
+    string result, resultHash;
+    
+
+    for (int i = start; i < end; i++){   //check passwords of 4 character
         result  = char(i);
         for(int j = 97; j < 123; j++){
             result += char(j);
@@ -332,8 +354,16 @@ void generatePassword (string salt, string magic, string correctHash, int start,
         result.pop_back();
     }
     cout << "password is more than 4 char long" << endl;
+    return;
+}
 
-    for (int i = 97; i < 123; i++){   //check passwords of 5 character
+void generatePassword5 (string salt, string magic, string correctHash, int start, int end){
+    int counter = 0;
+    clock_t time_a = clock();
+    string result, resultHash;
+    
+
+    for (int i = start; i < end; i++){   //check passwords of 5 character
         result  = char(i);
         for(int j = 97; j < 123; j++){
             result += char(j);
@@ -365,6 +395,14 @@ void generatePassword (string salt, string magic, string correctHash, int start,
         result.pop_back();
     }
     cout << "password is more than 5 char long" << endl;
+    return;
+}
+
+void generatePassword6 (string salt, string magic, string correctHash, int start, int end){
+    int counter = 0;
+    clock_t time_a = clock();
+    string result, resultHash;
+    
 
     for (int i = start; i < end; i++){      //check for 6 character
         result = char(i);
@@ -424,6 +462,7 @@ void generatePassword (string salt, string magic, string correctHash, int start,
       // cout << char(i) << endl;
     } 
     cout << "FOR DONE" << endl;
+    return;
 }
 
 int main() {
@@ -431,7 +470,7 @@ int main() {
     salt = "hfT7jp2q";
     magic = "$1$";
     hash = "mJpiQ6c5/hc6giQA.QSq.1"; 
-    generatePassword(salt, magic, hash, 97, 98);
+    generatePassword1(salt, magic, hash);
     // string randomhex = "0cc175b9c0f1b6a831c399e269772661";
     //thread th1(generatePassword, salt, magic, hash, 97, 98);
     //thread th2(generatePassword, salt, magic, hash, 98, 99);
