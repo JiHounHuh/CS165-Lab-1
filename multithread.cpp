@@ -45,70 +45,6 @@ string intermediateZero (string &password, string &salt, string &magic){
     // cout << "intermediate 0: " << md5(password + magic + salt + substr4 + substr5) << endl;
     return md5(password + magic + salt + substr4 + substr5);
 }
-
-// string binToB64(string convert) {
-//     string b64="./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-//     string fuck;
-//     string bitch = "";
-//     int ass;
-    
-//     for(int j = 5; j < convert.length();j+=6) {
-//         fuck = convert.substr(j-5,6);
-//         ass = stoi(fuck,nullptr,2);
-//         bitch += b64.at(ass);
-//        // cout << j << endl;
-//     }
-//   //  cout << "Bitch" << endl;
-//     return bitch;
-// }
-
-// const char* hexToBin(char hex) {
-//     switch(toupper(hex)) {
-//         case '0': return "0000";
-//         case '1': return "0001";
-//         case '2': return "0010";
-//         case '3': return "0011";
-//         case '4': return "0100";
-//         case '5': return "0101";
-//         case '6': return "0110";
-//         case '7': return "0111";
-//         case '8': return "1000";
-//         case '9': return "1001";
-//         case 'A': return "1010";
-//         case 'B': return "1011";
-//         case 'C': return "1100";
-//         case 'D': return "1101";
-//         case 'E': return "1110";
-//         case 'F': return "1111";
-//     }
-// }
-
-// string encodeBase(string hash) {
-//    // int len;
-//     //len = 16;
-//     string hexed = "";
-//     int place = 0;
-//     vector<string> death;
-//     static const int crypt[] = {11,4,10,5,3,9,15,2,8,14,1,7,13,0,6,12};
-   
-//    //cout << hash << endl;
-//     //static const int crypt[] = {11,4,10,5,3,9,15,2,8,14,1,7,13,0,6,12};
-//     //vector<int> crypt = {11, 4, 10, 5, 3, 9, 15, 2, 8, 14, 1, 7, 13, 0, 6, 12};
-//     //vector<int> crypt (arr, arr + sizeof(arr) / sizeof(arr[0]));
-    
-//     string bin = "";
-//     for(int p = 0; p < hash.length(); p++) {
-//         bin += hexToBin(hash.at(p));
-//     }
-//     for(int j = 7; j < bin.length(); j+= 8) {
-//        death.push_back(bin.substr(j-7,8));
-//    }
-//     for(int test = 0; test < 16; test++) {
-//         hexed += death.at(crypt[test]);
-//     }
-//    // cout << "after" << endl;
-//     return binToB64(hexed);
-// }
 const string b64="./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 //==========================================================================================
 string base64(unsigned int &hash, int amount) {
@@ -146,7 +82,7 @@ string to64_tripleGroup(string &hash, unsigned int first, unsigned int second, u
 }
 
 string to64_singleGroup(string &hash, unsigned int first) {
-    unsigned int semi = hash.at(first);
+    unsigned int semi = ((static_cast<unsigned char>(hash.at(first))));
     return base64(semi, 2);
 }
 
@@ -161,11 +97,6 @@ string encryption(string &hash) {
     finalProduct += to64_tripleGroup(hash, 4, 10, 5);
     finalProduct += to64_singleGroup(hash, 11);
     return finalProduct;
-//     return "$1$hfT7jp2q$" + to64_tripleGroup(hash, 0, 6, 12) + to64_tripleGroup(hash, 1, 7, 13)
-//      +to64_tripleGroup(hash, 2, 8, 14)
-//      +to64_tripleGroup(hash, 3, 9, 15)
-//      +to64_tripleGroup(hash, 4, 10, 5)
-//      +to64_singleGroup(hash, 11);
 }
 //==========================================================================================
 string generateHash(string &password, string &salt, string &magic)
@@ -218,33 +149,18 @@ string generateHash(string &password, string &salt, string &magic)
             convertedintermediate += character;
         }
         sample = "";
-      //  if (i == 999) cout << i << endl;
     }
-
-    // cout << "intermediate loop 1000: " << intermediate << endl;
-    // cout << "convertedIntermediate: " << convertedintermediate << endl;
-
-    //  cout << "Length of converted: " << convertedintermediate.length() << endl;
-    // cout << "intermed length: " << intermediate.length() << endl;
-    // for (int i= 0; i < convertedintermediate.length(); i++){
-    //    // if(convertedintermediate.at(i) == 'f') convertedintermediate.at(i) = '0';
-    //    //cout << "Char value at " << i << ": " << static_cast<unsigned int>(convertedintermediate[i]) << endl;
-    // //    cout << hex << static_cast<unsigned int>(convertedintermediate[i]);
-    //     // printf("%02x", convertedintermediate.at(i));
-    // }
-    //cout << endl;
-   
     return encryption(convertedintermediate);
 }
 
-void generatePassword (string salt, string magic, string correctHash, int start, int end){
+void generatePassword (string salt, string magic, string &correctHash, int start, int end){
     int counter = 0;
     clock_t time_a = clock();
     string result, resultHash;
     for (int i = start; i < end; i++){
         counter++;
         result = char(i);
-        cout << "computed: " << result << endl;
+        //cout << "computed: " << result << endl;
         resultHash = generateHash(result, salt, magic);
         if (correctHash == resultHash){
             cout << "password is: " << result<<endl;
@@ -259,7 +175,7 @@ void generatePassword (string salt, string magic, string correctHash, int start,
         for (int j = 122; j > 96; j--){
             counter++;
             result += char(j);
-            cout << "computed: " << result << endl;
+            //cout << "computed: " << result << endl;
             resultHash = generateHash(result, salt, magic);
             if (correctHash == resultHash){
                 cout << "password is: " << result<<endl;
@@ -274,7 +190,7 @@ void generatePassword (string salt, string magic, string correctHash, int start,
             for (int k = 122; k > 96; k--){
                 counter++;
                 result += char(k);
-                cout << "computed: " << result << endl;
+                //cout << "computed: " << result << endl;
                 resultHash = generateHash(result, salt, magic);
                 //cout << "3" << endl;
               //  cout << char(k) << endl;
@@ -291,7 +207,7 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                 for (int f = 122; f > 96; f--){
                     counter++;
                     result += char(f);
-                   cout << "computed: " << result << endl;
+                   //cout << "computed: " << result << endl;
                     resultHash = generateHash(result, salt, magic);
                   //  cout << char(f) << endl;
                     //cout << "4" << endl;
@@ -308,7 +224,7 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                     for (int d = 122; d > 96; d--){
                         counter++;
                         result += char(d);
-                        cout << "computed: " << result << endl;
+                        //cout << "computed: " << result << endl;
                         resultHash = generateHash(result, salt, magic);
                         //cout << "5" << endl;
                      //   cout << char(d) << endl;
@@ -326,7 +242,7 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                             counter++;
                             
                             result += char(s);
-                            cout << "computed: " << result << endl;
+                            //cout << "computed: " << result << endl;
                             //if(s < 123) {result += char(s+1);}
                             //else {result += char(122);}
                             resultHash = generateHash(result, salt, magic);
@@ -379,33 +295,29 @@ int main() {
     string hash,salt,magic;
     salt = "hfT7jp2q";
     magic = "$1$";
-    hash = "jp2q$YyB0RJv4oJ9.DYq.l5mjJ/"; 
-    // string randomhex = "0cc175b9c0f1b6a831c399e269772661";
-    //thread th1(generatePassword, salt, magic, hash, 105, 106);
-    //thread th2(generatePassword, salt, magic, hash, 106, 107);
-    //thread th3(generatePassword, salt, magic, hash, 107, 108);
-    thread th4(generatePassword, salt, magic, hash, 108, 110);
-    // thread th5(generatePassword, salt, magic, hash, 105, 107);
-    // thread th6(generatePassword, salt, magic, hash, 107, 109);
-    // thread th7(generatePassword, salt, magic, hash, 109, 112);
-    // thread th8(generatePassword, salt, magic, hash, 112, 114);
-    // thread th9(generatePassword, salt, magic, hash, 114, 116);
-    // thread th10(generatePassword, salt, magic, hash, 116, 118);
-    // thread th11(generatePassword, salt, magic, hash, 118, 120);
-    // thread th12(generatePassword, salt, magic, hash, 120, 123);
-    // th1.join();
-    // th2.join();
-    // th3.join();
+    hash = "KqcshpOfHc7VFTtiIZHPe1"; 
+    thread th1(generatePassword, salt, magic, hash, 97, 100);
+    thread th2(generatePassword, salt, magic, hash, 100, 102);
+    thread th3(generatePassword, salt, magic, hash, 102, 104);
+    thread th4(generatePassword, salt, magic, hash, 104, 106);
+    thread th5(generatePassword, salt, magic, hash, 106, 108);
+    thread th6(generatePassword, salt, magic, hash, 108, 110);
+    thread th7(generatePassword, salt, magic, hash, 110, 112);
+    thread th8(generatePassword, salt, magic, hash, 112, 114);
+    thread th9(generatePassword, salt, magic, hash, 114, 116);
+    thread th10(generatePassword, salt, magic, hash, 116, 118);
+    thread th11(generatePassword, salt, magic, hash, 118, 120);
+    thread th12(generatePassword, salt, magic, hash, 120, 123);
+    th1.join();
+    th2.join();
+    th3.join();
     th4.join();
-    // th5.join();
-    // th6.join();
-    // th7.join();
-    // th8.join();
-    // th9.join();
-    // th10.join();
-    // th11.join();
-    // th12.join();
-    //cout << "Correct password is : " << generatePassword(salt,magic,hash) << endl;
-    //cout << "hash " << generateHash("a", salt, magic) << endl;
-
+    th5.join();
+    th6.join();
+    th7.join();
+    th8.join();
+    th9.join();
+    th10.join();
+    th11.join();
+    th12.join();
 }
