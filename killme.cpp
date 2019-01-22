@@ -241,10 +241,9 @@ void generatePassword (string salt, string magic, string correctHash, int start,
     int counter = 0;
     clock_t time_a = clock();
     string result, resultHash;
-    for (int i = start; i < end; i++){
-        counter++;
-        result = char(i);
-        cout << "first: " << result << endl;
+    
+    for (int i = 97; i < 123; i++){   //check passwords of 1 character
+        result  = char(i);
         resultHash = generateHash(result, salt, magic);
         if (resultHash == correctHash){
             cout << "password is: " << result<<endl;
@@ -256,10 +255,13 @@ void generatePassword (string salt, string magic, string correctHash, int start,
             cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
             return;
         }
-        for (int j = 97; j < 123; j++){
-            counter++;
+    }
+    cout << "password is more than 1 char long" << endl;
+
+    for (int i = 97; i < 123; i++){   //check passwords of 2 character
+        result  = char(i);
+        for(int j = 97; j < 123; j++){
             result += char(j);
-            cout << "second: " << result << endl;
             resultHash = generateHash(result, salt, magic);
             if (resultHash == correctHash){
                 cout << "password is: " << result<<endl;
@@ -271,13 +273,19 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                 cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
                 return;
             }
+            result.pop_back();
+        }
+        result.pop_back();
+    }
+    cout << "password is more than 2 char long" << endl;
+
+    for (int i = 97; i < 123; i++){   //check passwords of 3 character
+        result  = char(i);
+        for(int j = 97; j < 123; j++){
+            result += char(j);
             for (int k = 97; k < 123; k++){
-                counter++;
                 result += char(k);
-                cout << "third: " << result << endl;
                 resultHash = generateHash(result, salt, magic);
-                //cout << "3" << endl;
-              //  cout << char(k) << endl;
                 if (resultHash == correctHash){
                     cout << "password is: " << result<<endl;
                     clock_t time_b = clock();
@@ -288,13 +296,23 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                     cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
                     return;
                 }
-                for (int f = 97; f < 123; f++){
-                    counter++;
-                    result += char(f);
-                    cout << "fourth: " << result << endl;
+                result.pop_back();
+            }
+            result.pop_back();
+        }
+        result.pop_back();
+    }
+    cout << "password is more than 3 char long" << endl;
+
+    for (int i = 97; i < 123; i++){   //check passwords of 4 character
+        result  = char(i);
+        for(int j = 97; j < 123; j++){
+            result += char(j);
+            for (int k = 97; k < 123; k++){
+                result += char(k);
+                for (int d = 97; d < 123; d++){
+                    result+= char(d);
                     resultHash = generateHash(result, salt, magic);
-                  //  cout << char(f) << endl;
-                    //cout << "4" << endl;
                     if (resultHash == correctHash){
                         cout << "password is: " << result<<endl;
                         clock_t time_b = clock();
@@ -305,13 +323,27 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                         cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
                         return;
                     }
-                    for (int d = 97; d < 123; d++){
-                        counter++;
-                        result += char(d);
-                        cout << "fifth: " << result << endl;
+                    result.pop_back();
+                }
+                result.pop_back();
+            }
+            result.pop_back();
+        }
+        result.pop_back();
+    }
+    cout << "password is more than 4 char long" << endl;
+
+    for (int i = 97; i < 123; i++){   //check passwords of 5 character
+        result  = char(i);
+        for(int j = 97; j < 123; j++){
+            result += char(j);
+            for (int k = 97; k < 123; k++){
+                result += char(k);
+                for (int d = 97; d < 123; d++){
+                    result+= char(d);
+                    for (int s = 97; s < 123; s++){
+                        result += char(s);
                         resultHash = generateHash(result, salt, magic);
-                        //cout << "5" << endl;
-                     //   cout << char(d) << endl;
                         if (resultHash == correctHash){
                             cout << "password is: " << result<<endl;
                             clock_t time_b = clock();
@@ -322,10 +354,30 @@ void generatePassword (string salt, string magic, string correctHash, int start,
                             cout << "Hash rate: " << counter / seconds << " hashes per second" << endl;
                             return;
                         }
+                        result.pop_back();
+                    }
+                    result.pop_back();
+                }
+                result.pop_back();
+            }
+            result.pop_back();
+        }
+        result.pop_back();
+    }
+    cout << "password is more than 5 char long" << endl;
+
+    for (int i = start; i < end; i++){      //check for 6 character
+        result = char(i);
+        for (int j = 97; j < 123; j++){
+            result += char(j);
+            for (int k = 97; k < 123; k++){
+                result += char(k);
+                for (int f = 97; f < 123; f++){
+                    result += char(f);
+                    for (int d = 97; d < 123; d++){
+                        result += char(d);
                         for (int s = 97; s < 123; s++){
-                            counter++;
                             result += char(s);
-                            cout << "sixth: " << result << endl;
                             //if(s < 123) {result += char(s+1);}
                             //else {result += char(122);}
                             resultHash = generateHash(result, salt, magic);
